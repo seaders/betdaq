@@ -17,11 +17,11 @@ class Betting(BaseEndpoint):
         """
         Get the initial list of orders that's need to be taken into consideration when establishing positions. 
         Information about the following orders will be returned:
-            •	active orders
-            •	fully matched orders
-            •	cancelled orders that have a matched portion 
-            •	suspended orders
-            •	some settled or voided orders under some conditions
+            -	active orders
+            -	fully matched orders
+            -	cancelled orders that have a matched portion 
+            -	suspended orders
+            -	some settled or voided orders under some conditions
 
         :param SequenceNumber: lower bound cutoff for sequence updates to include, 
                                -1 will set to earliest possible sequence.
