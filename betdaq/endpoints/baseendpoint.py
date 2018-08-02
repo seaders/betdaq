@@ -21,15 +21,25 @@ class BaseEndpoint(object):
         :param params: Params to be used in request.
         :param secure: Whether the method belongs to the secure or readonly service.
         """
+        if secure:
+            client = self.client.secure_client
+        else:
+            client = self.client.readonly_client
+
+        if self.client.raw_response:
+            client.raw_response = True
+
         try:
-            if secure:
-                response = self.client.secure_client.service[method](params)
-            else:
-                response = self.client.readonly_client.service[method](params)
+            response = client.service[method](params)
         except ConnectionError:
             raise APIError(None, method, params, 'ConnectionError')
         except Exception as e:
             raise APIError(None, method, params, e)
+
+        if self.client.raw_response:
+            client.raw_response = False
+            return response
+
         data = serialize_object(response)
         check_status_code(data)
         return data

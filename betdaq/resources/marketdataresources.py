@@ -23,11 +23,13 @@ def parse_deep_markets(sports):
                                                }
                 )
                 if event.get('EventClassifiers', []):
-                    sub_events += [{**ev, **{'competition_name': event.get('Name')
+                    sub_events += [{**ev, **{'competition_name':
+                                             event.get('Name')
                                              if event.get('tournament_name') and event.get('competition_name') is None
                                              else event.get('competition_name') if event.get('competition_name')
                                              else None,
-                                             'competition_id': event.get('Id')
+                                             'competition_id':
+                                             event.get('Id')
                                              if event.get('tournament_name') and event.get('competition_name') is None
                                              else event.get('competition_id') if event.get('competition_name')
                                              else None,

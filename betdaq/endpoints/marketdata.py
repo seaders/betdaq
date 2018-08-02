@@ -57,6 +57,9 @@ class MarketData(BaseEndpoint):
                 WantPlayMarkets=WantPlayMarkets,
             )
         response = self.request(method, params, secure=False)
+        if self.client.raw_response:
+            return response
+
         data = self.process_response(response, date_time_sent, 'EventClassifiers', error_handler=err_sport_markets)
         return parse_deep_markets(listy_mc_list(data.get('data', []))) if data.get('data') else []
 

@@ -10,6 +10,7 @@ class BaseClient:
         self.readonly_types = None
         self.secure_types = None
         self.secure_client, self.readonly_client = self.initialise_wsdl()
+        self.raw_response = False
         self.initialise_type_factories()
 
     def initialise_wsdl(self):
