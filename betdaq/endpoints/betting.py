@@ -13,7 +13,8 @@ from betdaq.resources.bettingresources import (
 
 class Betting(BaseEndpoint):
 
-    def get_orders(self, SequenceNumber=-1, wantSettledOrdersOnUnsettledMarkets=Boolean.T.value):
+    def get_orders(self, SequenceNumber=-1, wantSettledOrdersOnUnsettledMarkets=Boolean.T.value,
+                   raw_no_parse=False):
         """
         Get the initial list of orders that's need to be taken into consideration when establishing positions. 
         Information about the following orders will be returned:
@@ -35,7 +36,9 @@ class Betting(BaseEndpoint):
         date_time_sent = datetime.datetime.utcnow()
         response = self.request('ListBootstrapOrders', params, secure=True)
         data = self.process_response(response, date_time_sent, 'Orders')
-        return [parse_orders(order) for order in data.get('data', {}).get('Order', [])] if data.get('data') else []
+        raw_orders = data['data'].get('Order', []) if data.get('data') else []
+        return raw_orders if raw_no_parse else \
+            [parse_orders(order) for order in raw_orders]
 
     def get_orders_diff(self, SequenceNumber):
         """
